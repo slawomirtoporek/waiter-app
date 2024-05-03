@@ -1,6 +1,7 @@
 // selectors
 
 // actions
+const createActionName = actionName => `app/tables/${actionName}`;
 
 // action creators
 

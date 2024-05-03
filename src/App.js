@@ -1,6 +1,18 @@
+import { Routes, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import Header from "./components/views/Header/Header";
+import Footer from "./components/views/Footer/Footer";
+import Home from "./components/pages/Home/Home";
+
 const App = () => {
   return (
-    <h1>Hello world!</h1>
+    <Container>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+      <Footer />
+    </Container>
   );
 };
 
