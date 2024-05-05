@@ -17,9 +17,12 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center">
-        <Spinner className="mt-5" variant="secondary" />
-      </div>
+      <>
+        <h1 className="fs-3">All tables</h1>
+        <div className="d-flex justify-content-center">
+          <Spinner className="mt-5" variant="secondary" />
+        </div>
+      </>
     );
   };
 

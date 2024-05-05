@@ -28,5 +28,23 @@
       "maxPeopleAmount": 3,
       "bill": 0
     }
+  ],
+  "status": [
+    {
+      "id": "1",
+      "name": "Reserved"
+    },
+    {
+      "id": "2",
+      "name": "Busy"
+    },
+    {
+      "id": "3",
+      "name": "Cleaning"
+    },
+    {
+      "id": "4",
+      "name": "Free"
+    }
   ]
 }

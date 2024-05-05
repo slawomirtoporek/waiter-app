@@ -8,19 +8,21 @@ import Table from "./components/pages/Table/Table";
 import { useDispatch } from 'react-redux';
 import { useEffect } from "react";
 import { fetchTables } from "./redux/tablesRedux";
+import { fetchStatus } from "./redux/statusRedux";
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => dispatch(fetchTables()), [dispatch]);
+  useEffect(() => dispatch(fetchStatus()), [dispatch]);
 
   return (
     <Container>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/table/:id" element={<Table />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/table/:id" element={<Table />} />
       </Routes>
       <Footer />
     </Container>
