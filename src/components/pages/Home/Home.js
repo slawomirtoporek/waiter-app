@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { getAllTables } from "../../../redux/tablesRedux";
-import { Button, Card, Col, Spinner } from "react-bootstrap";
+import { Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import ListTables from "../../features/TableList/TableList";
 
 const Home = () => {
 
@@ -29,18 +30,7 @@ const Home = () => {
   return (
     <>
       <h1 className="fs-3">All tables</h1>
-      <Col>
-        {tables && tables.map(table => (
-          <Card key={table.id} className="border-0 border-bottom">
-              <Card.Body className="d-flex justify-content-between ps-0">
-                <Card.Title>
-                  <span className="fs-4 me-3">Table {table.id}</span> <span className="fs-6">Status: </span><span className="fs-6 fw-light">{table.status}</span>
-                </Card.Title>
-                <Button onClick={(e) => handleShowMore(e, table.id)}>Show more</Button>
-              </Card.Body>
-          </Card>
-        ))}
-      </Col>
+      <ListTables tableList={tables} action={handleShowMore} />
     </>
   );
 };
