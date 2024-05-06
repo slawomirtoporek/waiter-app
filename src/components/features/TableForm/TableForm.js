@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useSelector } from "react-redux";
 import { getAllStatus } from "../../../redux/statusRedux";
 import { useState } from "react";
@@ -13,6 +14,51 @@ const TableForm = ({ id, action, props }) => {
   const [maxPeopleAmount, setMaxPeopleAmount] = useState(props.maxPeopleAmount || '');
   const [bill, setBill] = useState(props.bill || '');
 
+  const [billView, setBillView] = useState(false);
+
+  const handleStatusChange = e => {
+    const currentStatus = e.target.value;
+    setStatus(currentStatus);
+    if (currentStatus === 'Busy') {
+      setBillView(true);
+      setBill(0);
+    } else if (currentStatus === 'Cleaning' || currentStatus === 'Free') {
+      setBillView(false);
+      setBill(0);
+      setPeopleAmount(0);
+    } else if (currentStatus === 'Reserved') {
+      setBillView(false);
+      setBill(0);
+      setPeopleAmount(0);
+    } else {
+      setBillView(false);
+    };
+  };
+
+  const handlePeopleAmount = e => {
+    const numberOfQuests = parseInt(e.target.value) || '';
+    if (!isNaN(numberOfQuests) && numberOfQuests >= 0 && numberOfQuests <= 10 && numberOfQuests <= maxPeopleAmount) {
+      setPeopleAmount(numberOfQuests);
+    };
+  };
+
+  const handleMaxPeopleAmount = e => {
+    const maxNumberofQuests = parseInt(e.target.value) || '';
+    if (!isNaN(maxNumberofQuests) && maxNumberofQuests >= 0 && maxNumberofQuests <= 10) {
+      setMaxPeopleAmount(maxNumberofQuests);
+      if (peopleAmount > maxNumberofQuests) {
+        setMaxPeopleAmount(maxNumberofQuests);
+      }
+    };
+  };
+
+  const handleBill = e => {
+    const totalBill = parseFloat(e.target.value) || '';
+    if (!isNaN(totalBill) && totalBill >= 0) {
+      setBill(totalBill);
+    };
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     action({id, status, peopleAmount, maxPeopleAmount, bill});
@@ -24,7 +70,7 @@ const TableForm = ({ id, action, props }) => {
           <Form.Label className={styles.label}>Status:</Form.Label>
           <Form.Select
             value={status}
-            onChange={e => setStatus(e.target.value)}
+            onChange={e => handleStatusChange(e)}
             className={styles.status}
             >
             {statusSelect.map(status => (
@@ -36,31 +82,41 @@ const TableForm = ({ id, action, props }) => {
           <Form.Label className={styles.label}>People:</Form.Label>
           <Form.Control
           value={peopleAmount}
-          onChange={(e) => setPeopleAmount(e.target.value)}
+          onChange={(e) => handlePeopleAmount(e)}
           type="number" placeholder="Min" 
           className={styles.numPeople}
           />
           <Form.Text className="mx-2 fs-5">/</Form.Text>
           <Form.Control
             value={maxPeopleAmount}
-            onChange={(e) => setMaxPeopleAmount(e.target.value)}
+            onChange={(e) => handleMaxPeopleAmount(e)}
             type="number" placeholder="Max" 
             className={styles.numPeople}
           />
         </Form.Group>
-        <Form.Group className="d-flex mb-3">
-          <Form.Label className={styles.label}>Bill:</Form.Label>
-          <Form.Text className="mx-2 fs-5">$</Form.Text>
-          <Form.Control
-          value={bill}
-          onChange={(e) => setBill(e.target.value)}
-          type="number" placeholder="Amount" 
-          className={styles.bill}
-          />
-        </Form.Group>
+        <>
+        {(billView || status === 'Busy') ? (
+          <Form.Group className="d-flex mb-3">
+            <Form.Label className={styles.label}>Bill:</Form.Label>
+            <Form.Text className="mx-2 fs-5">$</Form.Text>
+            <Form.Control
+            value={bill}
+            onChange={(e) => handleBill(e)}
+            type="number" placeholder="Amount" 
+            className={styles.bill}
+            />
+            </Form.Group>
+          ) : ''}
+        </>
         <Button type="submit">Update</Button>
       </Form>
   );
+};
+
+TableForm.propTypes = {
+  id: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
+  props: PropTypes.object.isRequired,
 };
 
 export default TableForm

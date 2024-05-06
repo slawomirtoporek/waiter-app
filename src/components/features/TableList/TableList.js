@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { Card, Button } from "react-bootstrap";
 
 const TableList = ({tableList, action}) => {
@@ -19,5 +21,11 @@ const TableList = ({tableList, action}) => {
     </>
   );
 };
+
+TableList.propTypes = {
+  TableList: PropTypes.object,
+  action: PropTypes.func.isRequired,
+};
+
 
 export default TableList;
